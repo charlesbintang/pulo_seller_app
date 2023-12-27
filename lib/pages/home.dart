@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../auth/widgets/sign_in_widget.dart';
 import '../utils/constants.dart';
 import '../widgets/app_button.dart';
 
@@ -93,7 +94,14 @@ class Home extends StatelessWidget {
                     text: "Log In",
                     type: ButtonType.PLAIN,
                     onPressed: () {
-                      nextScreen(context, "/login");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignInWidget()),
+                      );
+                      // MaterialPageRoute(builder: (BuildContext context) {
+                      //   return const SignInWidget();
+                      // });
                     },
                   ),
                   const SizedBox(
