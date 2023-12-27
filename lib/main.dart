@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'auth/widgets/sign_in_widget.dart';
 import 'firebase_options.dart';
 import 'pages/dashboard.dart';
 import 'pages/home.dart';
@@ -53,9 +54,13 @@ Route<dynamic> _onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (BuildContext context) {
         return const Home();
       });
-    case "/login":
+    case "/oldlogin":
       return MaterialPageRoute(builder: (BuildContext context) {
         return const Login();
+      });
+    case "/login":
+      return MaterialPageRoute(builder: (BuildContext context) {
+        return const SignInWidget();
       });
     case "/dashboard":
       return MaterialPageRoute(builder: (BuildContext context) {
