@@ -1,0 +1,125 @@
+{
+  "project_info": {
+    "project_number": "619912409585",
+    "firebase_url": "https://pulo-9750d-default-rtdb.firebaseio.com",
+    "project_id": "pulo-9750d",
+    "storage_bucket": "pulo-9750d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619912409585:android:634efcb32e567f339e5450",
+        "android_client_info": {
+          "package_name": "com.example.pulo_admin_web_panel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5WIUPtrnSmQGRosTLnIbti4HqJ47FwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619912409585:android:58eced6fbc79fa649e5450",
+        "android_client_info": {
+          "package_name": "com.example.pulo_drivers_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5WIUPtrnSmQGRosTLnIbti4HqJ47FwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619912409585:android:1982a1e5e17e82ef9e5450",
+        "android_client_info": {
+          "package_name": "com.example.pulo_riders_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5WIUPtrnSmQGRosTLnIbti4HqJ47FwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619912409585:android:cfe155546413b75e9e5450",
+        "android_client_info": {
+          "package_name": "com.example.pulo_seller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5WIUPtrnSmQGRosTLnIbti4HqJ47FwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619912409585:android:dbf52534dcbbbf859e5450",
+        "android_client_info": {
+          "package_name": "com.example.pulo_seller_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5WIUPtrnSmQGRosTLnIbti4HqJ47FwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619912409585:android:ebf85cf7ea075c6b9e5450",
+        "android_client_info": {
+          "package_name": "com.example.users_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5WIUPtrnSmQGRosTLnIbti4HqJ47FwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDQl716peOX0-Fl0lXOvP0Zi2yhwOmGSM0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>619912409585</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.puloSellerApp</string>
+	<key>PROJECT_ID</key>
+	<string>pulo-9750d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pulo-9750d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:619912409585:ios:f931890b8021a1089e5450</string>
+	<key>DATABASE_URL</key>
+	<string>https://pulo-9750d-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
