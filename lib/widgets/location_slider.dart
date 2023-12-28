@@ -3,28 +3,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../models/location.dart';
 
-class LocationSlider extends StatelessWidget {
-  const LocationSlider({super.key});
+class StatistikToko extends StatelessWidget {
+  const StatistikToko({super.key});
 
   @override
   Widget build(BuildContext context) {
     // Model to represent each card
 
     // Make a list to represent each card
-    List<Location> locations = [
-      Location(
-        persentase: "0%",
-        title: "Kings Street 20",
+    List<DetailsStatistikToko> listStatistikToko = [
+      DetailsStatistikToko(
+        title: "Produk Dilihat",
         color: const Color.fromRGBO(89, 69, 199, 1),
-        point: "Bucharest",
+        point: "Tambah Produk",
         imagePath: "assets/images/house1.png",
+        persentase: "0% dari 30 hari terakhir",
       ),
-      Location(
-        persentase: "0%",
-        title: "Victory Square 18",
+      DetailsStatistikToko(
+        title: "Dalam Keranjang",
         color: const Color.fromRGBO(237, 116, 41, 1),
-        point: "Bucharest",
+        point: "0",
         imagePath: "assets/images/house2.png",
+        persentase: "0% dari 30 hari terakhir",
       )
     ];
     return SizedBox(
@@ -38,7 +38,7 @@ class LocationSlider extends StatelessWidget {
             child: Container(
               width: ScreenUtil().setWidth(158.0),
               decoration: BoxDecoration(
-                color: locations[index].color,
+                color: listStatistikToko[index].color,
                 borderRadius: BorderRadius.circular(8.0),
                 boxShadow: const [
                   BoxShadow(
@@ -60,24 +60,24 @@ class LocationSlider extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "${locations[index].title},\n",
+                          text: "${listStatistikToko[index].title}\n",
                           style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${listStatistikToko[index].point}\n",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
                             height: 1.5,
                             fontSize: 16.0,
                           ),
                         ),
                         TextSpan(
-                          text: "${locations[index].point}\n",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "${locations[index].persentase},\n",
+                          text: "${listStatistikToko[index].persentase}\n",
                           style: const TextStyle(
                             height: 1.5,
-                            fontSize: 16.0,
+                            fontSize: 12.0,
                           ),
                         ),
                       ],
@@ -93,7 +93,7 @@ class LocationSlider extends StatelessWidget {
             width: 15.0,
           );
         },
-        itemCount: locations.length,
+        itemCount: listStatistikToko.length,
       ),
     );
   }

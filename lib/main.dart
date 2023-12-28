@@ -2,20 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulo_seller_app/appInfo/app_info.dart';
 import 'package:pulo_seller_app/splash/splash_screen.dart';
 import 'package:pulo_seller_app/utils/light_themes.dart';
 
-import 'auth/widgets/sign_in_widget.dart';
 import 'firebase_options.dart';
 import 'pages/dashboard.dart';
 import 'pages/home.dart';
-import 'pages/login.dart';
-import 'pages/single_order.dart';
-import 'utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

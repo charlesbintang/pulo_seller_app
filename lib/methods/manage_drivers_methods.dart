@@ -7,7 +7,7 @@ class ManageDriversMethods {
     int index = nearbyOnlineDriversList
         .indexWhere((driver) => driver.uidDriver == driverID);
 
-    if (nearbyOnlineDriversList.length > 0) {
+    if (nearbyOnlineDriversList.isNotEmpty) {
       nearbyOnlineDriversList.removeAt(index);
     }
   }

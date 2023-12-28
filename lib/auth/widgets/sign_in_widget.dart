@@ -11,8 +11,6 @@ import '../../../utils/custom_themes.dart';
 import '../../../utils/dimensions.dart';
 import '../../../widgets/loading_dialog.dart';
 import '../../base_widgets/button/custom_button.dart';
-import '../../base_widgets/text_field/custom_password_textfield.dart';
-import '../../base_widgets/text_field/custom_textfield.dart';
 import '../../pages/dashboard.dart';
 import '../../utils/constants.dart';
 import '../../widgets/input_widget.dart';

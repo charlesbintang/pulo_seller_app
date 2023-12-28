@@ -1,13 +1,13 @@
 import 'dart:ui';
 
-class Location {
+class DetailsStatistikToko {
   final String title;
   final String point;
   final String persentase;
   final Color color;
   final String imagePath;
 
-  Location({
+  DetailsStatistikToko({
     required this.title,
     required this.color,
     required this.imagePath,
