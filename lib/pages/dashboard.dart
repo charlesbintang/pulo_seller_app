@@ -3,6 +3,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import '../models/seller_products.dart';
 import '../utils/constants.dart';
 import 'home_dashboard.dart';
 import 'product_view.dart';
@@ -68,6 +69,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   onTapBottomNavigation(int activeIndex) {
+    if (activeIndex != 1) {
+      sellerProducts.clear();
+    }
     switch (activeIndex) {
       case 0:
         return const HomeDashboard();
