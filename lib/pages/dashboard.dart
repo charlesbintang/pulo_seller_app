@@ -10,7 +10,8 @@ import 'home_dashboard.dart';
 import 'product_view.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final int initIndex;
+  const Dashboard({super.key, required this.initIndex});
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -19,6 +20,13 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   // Track active index
   int activeIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    activeIndex = widget.initIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

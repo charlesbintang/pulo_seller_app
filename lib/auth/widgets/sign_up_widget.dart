@@ -93,7 +93,11 @@ class SignUpWidgetState extends State<SignUpWidget> {
     usersRef.set(userDataMap);
 
     Navigator.push(
-        context, MaterialPageRoute(builder: (c) => const Dashboard()));
+        context,
+        MaterialPageRoute(
+            builder: (c) => const Dashboard(
+                  initIndex: 0,
+                )));
   }
 
   @override

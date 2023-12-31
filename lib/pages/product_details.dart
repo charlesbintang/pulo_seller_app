@@ -1,6 +1,14 @@
+import 'dart:io';
+
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:pulo_seller_app/pages/dashboard.dart';
+import 'package:pulo_seller_app/pages/product_view.dart';
 
+import '../global/global_var.dart';
 import '../models/seller_products.dart';
 import '../utils/color_resources.dart';
 import '../utils/constants.dart';
@@ -17,6 +25,103 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController stockController = TextEditingController();
+  String selectedCategory = '';
+  String selectedCategoryBefore = '';
+  String productImage = "";
+  final List<String> categories = [
+    'food',
+    'mart',
+    'pasar',
+    'rental',
+  ];
+
+  void updateData(
+    String productName,
+    String productPrice,
+    String productDescription,
+    String productStock,
+    String selectedCategory,
+    String productImage,
+  ) {
+    DatabaseReference productRefKey = FirebaseDatabase.instance
+        .ref()
+        .child("sellerItems")
+        .child(userID)
+        .child(selectedCategory);
+
+    final editData = {
+      "productName": productName,
+      "productPrice": productPrice,
+      "productDescription": productDescription,
+      "productStock": productStock,
+      "productCategory": selectedCategory,
+      "productImage": productImage,
+    };
+
+    productRefKey
+        .child(widget.sellerProductsDetails.productId)
+        .update(editData)
+        .then((value) {
+      nameController.clear();
+      priceController.clear();
+      descriptionController.clear();
+      stockController.clear();
+      setState(() {
+        selectedCategory = '';
+        productImage = '';
+        sellerProducts.clear();
+      });
+      print("berhasil");
+    });
+  }
+
+  Future pickImageFromGallery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnedImage == null) return;
+    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+
+    // Get the reference to storage root
+    // We create the image folder first and insider folder we upload the image
+    Reference referenceRoot = FirebaseStorage.instance.ref().child("Images");
+
+    // we have creata reference for the image to be stored
+    Reference referenceImageaToUpload = referenceRoot.child(fileName);
+
+    try {
+      await referenceImageaToUpload.putFile(File(returnedImage.path));
+
+      // We have successfully upload the image now
+      // make this upload image link in firebase database
+
+      productImage = await referenceImageaToUpload.getDownloadURL();
+      if (productImage.isNotEmpty) {
+        setState(() {
+          // canSave = true;
+        });
+      }
+      print(productImage);
+    } catch (error) {
+      //some error
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.sellerProductsDetails.productName;
+    priceController.text = widget.sellerProductsDetails.productPrice;
+    descriptionController.text =
+        widget.sellerProductsDetails.productDescription;
+    stockController.text = widget.sellerProductsDetails.productStock;
+    selectedCategory = widget.sellerProductsDetails.productCategory;
+    productImage = widget.sellerProductsDetails.productImage;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,34 +144,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                   Positioned(
-                    left: -12,
+                    left: -5,
                     child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: BackButton(
                           onPressed: () => Navigator.pop(context),
                           color: ColorResources.white,
-                        )
-                        // Container(
-                        //   height: ScreenUtil().setHeight(35),
-                        //   width: ScreenUtil().setWidth(30),
-                        //   decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(60),
-                        //       color: Constants.primaryColor,
-                        //       boxShadow: [
-                        //         BoxShadow(
-                        //             color: ColorResources.black,
-                        //             blurRadius: 1,
-                        //             offset: Offset.zero)
-                        //       ]),
-                        //   child: Center(
-                        //     child: GestureDetector(
-                        //       onTap: () => Navigator.pop(context),
-                        //       child: Icon(Icons.arrow_back_rounded,
-                        //           color: ColorResources.white),
-                        //     ),
-                        //   ),
-                        // ),
-                        ),
+                          style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Constants.primaryColor)),
+                        )),
                   ),
                 ],
               ),
@@ -80,7 +167,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     Text(
                       widget.sellerProductsDetails.productName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 21.5,
                           fontWeight: FontWeight.bold,
                           color: ColorResources.black),
@@ -96,7 +183,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       children: [
                         Text(
                           widget.sellerProductsDetails.productPrice,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: ColorResources.black),
@@ -108,7 +195,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     Text(
                       widget.sellerProductsDetails.productDescription,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         color: ColorResources.black,
                       ),
@@ -123,22 +210,26 @@ class _ProductDetailsState extends State<ProductDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
+                          onPressed: () {
+                            updateProduct(context);
+                          },
+                          style: const ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(
                                   Constants.primaryColor)),
-                          child: Text(
+                          child: const Text(
                             "Update",
                             style: TextStyle(color: ColorResources.white),
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
+                          onPressed: () {
+                            deleteProduct(context);
+                          },
+                          child: const Text(
                             "Remove",
                             style: TextStyle(color: ColorResources.white),
                           ),
-                          style: ButtonStyle(
+                          style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(ColorResources.red),
                           ),
@@ -151,6 +242,142 @@ class _ProductDetailsState extends State<ProductDetails> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Future<dynamic> deleteProduct(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          'Remove This Product',
+        ),
+        content: const Text("Are you sure to remove this product?"),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(),
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(ColorResources.green)),
+            child: const Text(
+              'No',
+              style: TextStyle(color: ColorResources.white),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              DatabaseReference productRef = FirebaseDatabase.instance
+                  .ref()
+                  .child("sellerItems")
+                  .child(userID)
+                  .child(widget.sellerProductsDetails.productCategory)
+                  .child(widget.sellerProductsDetails.productId);
+              productRef.remove().then((value) {
+                sellerProducts.clear();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              });
+            },
+            style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(ColorResources.red)),
+            child: const Text(
+              'Yes',
+              style: TextStyle(color: ColorResources.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> updateProduct(BuildContext context) {
+    bool canSave = false;
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          'Update This Product',
+        ),
+        content: Column(
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Nama Produk'),
+            ),
+            TextField(
+              controller: priceController,
+              decoration: const InputDecoration(labelText: 'Harga'),
+            ),
+            TextField(
+              controller: descriptionController,
+              decoration: const InputDecoration(labelText: 'Deskripsi'),
+            ),
+            TextField(
+              controller: stockController,
+              decoration: const InputDecoration(labelText: 'Stok'),
+            ),
+            SizedBox(height: ScreenUtil().setHeight(20)),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  canSave = true;
+                  productImage = "";
+                });
+
+                print(canSave);
+                Future.delayed(Duration(milliseconds: 500), () {
+                  pickImageFromGallery();
+                });
+              },
+              child: const Text('Unggah Gambar Produk'),
+            ),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              nameController.clear();
+              priceController.clear();
+              descriptionController.clear();
+              stockController.clear();
+              setState(() {
+                selectedCategory = '';
+                productImage = '';
+              });
+              Navigator.of(context).pop();
+            },
+            style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(ColorResources.red)),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: ColorResources.white),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (productImage.isNotEmpty) {
+                updateData(
+                  nameController.text,
+                  priceController.text,
+                  descriptionController.text,
+                  stockController.text,
+                  selectedCategory,
+                  productImage,
+                );
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }
+            },
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(ColorResources.green)),
+            child: const Text(
+              'Save',
+              style: TextStyle(color: ColorResources.white),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -78,7 +78,11 @@ class SignInWidgetState extends State<SignInWidget> {
             userName = (snap.snapshot.value as Map)["name"];
             userPhone = (snap.snapshot.value as Map)["phone"];
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (c) => const Dashboard()));
+                context,
+                MaterialPageRoute(
+                    builder: (c) => const Dashboard(
+                          initIndex: 0,
+                        )));
           } else {
             FirebaseAuth.instance.signOut();
             cMethods.displaySnackBar(

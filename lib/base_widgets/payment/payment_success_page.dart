@@ -23,7 +23,9 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
         desc: 'Selamat Pembayaran Berhasil dilakukan',
         btnOkOnPress: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const Dashboard();
+            return const Dashboard(
+              initIndex: 0,
+            );
           }));
         },
       ).show();

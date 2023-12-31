@@ -143,6 +143,7 @@ class _ProductViewState extends State<ProductView> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: ColorResources.white,
         actions: [
           IconButton(

@@ -68,7 +68,9 @@ class MainApp extends StatelessWidget {
                         onInitializationComplete: () {
                           navigatorKey.currentState?.pushReplacement(
                             MaterialPageRoute(
-                              builder: (_) => const Dashboard(),
+                              builder: (_) => const Dashboard(
+                                initIndex: 0,
+                              ),
                             ),
                           );
                         },

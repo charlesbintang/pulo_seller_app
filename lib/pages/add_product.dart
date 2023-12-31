@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../global/global_var.dart';
+import '../models/seller_products.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -17,7 +17,6 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  Future<FirebaseApp> fapp = Firebase.initializeApp();
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -33,7 +32,7 @@ class _AddProductState extends State<AddProduct> {
     'rental',
   ];
 
-  void saveData() async {
+  void saveData() {
     DatabaseReference productRef = FirebaseDatabase.instance
         .ref()
         .child("sellerItems")
@@ -68,8 +67,9 @@ class _AddProductState extends State<AddProduct> {
     stockController.clear();
     setState(() {
       selectedCategory = '';
-      productImage = ''; // Setel kategori kembali ke nilai awal
+      productImage = '';
     });
+    sellerProducts.clear(); // Setel kategori kembali ke nilai awal
   }
 
   Future pickImageFromGallery() async {
@@ -110,33 +110,24 @@ class _AddProductState extends State<AddProduct> {
           children: [
             TextField(
               controller: nameController,
-              decoration: InputDecoration(labelText: 'Nama Produk'),
+              decoration: const InputDecoration(labelText: 'Nama Produk'),
             ),
             TextField(
               controller: priceController,
-              decoration: InputDecoration(labelText: 'Harga'),
+              decoration: const InputDecoration(labelText: 'Harga'),
             ),
             TextField(
               controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Deskripsi'),
+              decoration: const InputDecoration(labelText: 'Deskripsi'),
             ),
             TextField(
               controller: stockController,
-              decoration: InputDecoration(labelText: 'Stok'),
+              decoration: const InputDecoration(labelText: 'Stok'),
             ),
             SizedBox(height: ScreenUtil().setHeight(20)),
-            ElevatedButton(
-              onPressed: () {
-                pickImageFromGallery();
-              },
-              child: Text('Unggah Gambar Produk'),
-            ),
-
-            SizedBox(height: ScreenUtil().setHeight(20)),
-            // DropdownButton untuk kategori
             DropdownButton<String>(
               value: selectedCategory.isEmpty ? null : selectedCategory,
-              hint: Text('Pilih Kategori'),
+              hint: const Text('Pilih Kategori'),
               onChanged: (value) {
                 setState(() {
                   selectedCategory = value!;
@@ -152,9 +143,16 @@ class _AddProductState extends State<AddProduct> {
             SizedBox(height: ScreenUtil().setHeight(20)),
             ElevatedButton(
               onPressed: () {
+                pickImageFromGallery();
+              },
+              child: const Text('Unggah Gambar Produk'),
+            ),
+            SizedBox(height: ScreenUtil().setHeight(20)),
+            ElevatedButton(
+              onPressed: () {
                 saveData();
               },
-              child: Text('Simpan'),
+              child: const Text('Simpan'),
             ),
           ],
         ),
