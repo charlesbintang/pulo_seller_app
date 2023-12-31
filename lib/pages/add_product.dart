@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../global/global_var.dart';
 
@@ -18,6 +23,7 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController stockController = TextEditingController();
   String selectedCategory = ''; // Menyimpan nilai kategori yang dipilih
+  String productImage = "";
 
   // Daftar kategori yang dapat dipilih
   final List<String> categories = [
@@ -27,7 +33,7 @@ class _AddProductState extends State<AddProduct> {
     'rental',
   ];
 
-  void saveData() {
+  void saveData() async {
     DatabaseReference productRef = FirebaseDatabase.instance
         .ref()
         .child("sellerItems")
@@ -48,8 +54,7 @@ class _AddProductState extends State<AddProduct> {
       "productDescription": productDescription,
       "productStock": productStock,
       "productCategory": selectedCategory,
-      "productImage":
-          "https://img.freepik.com/free-vector/vector-icon-illustration-white-carton-box-mockup_134830-1994.jpg",
+      "productImage": productImage,
       //  TODO "productImage": ,
     }).then((_) {
       print("Data saved successfully");
@@ -62,8 +67,35 @@ class _AddProductState extends State<AddProduct> {
     descriptionController.clear();
     stockController.clear();
     setState(() {
-      selectedCategory = ''; // Setel kategori kembali ke nilai awal
+      selectedCategory = '';
+      productImage = ''; // Setel kategori kembali ke nilai awal
     });
+  }
+
+  Future pickImageFromGallery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnedImage == null) return;
+    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+
+    // Get the reference to storage root
+    // We create the image folder first and insider folder we upload the image
+    Reference referenceRoot = FirebaseStorage.instance.ref().child("Images");
+
+    // we have creata reference for the image to be stored
+    Reference referenceImageaToUpload = referenceRoot.child(fileName);
+
+    try {
+      await referenceImageaToUpload.putFile(File(returnedImage.path));
+
+      // We have successfully upload the image now
+      // make this upload image link in firebase database
+
+      productImage = await referenceImageaToUpload.getDownloadURL();
+      print(productImage);
+    } catch (error) {
+      //some error
+    }
   }
 
   @override
@@ -92,7 +124,15 @@ class _AddProductState extends State<AddProduct> {
               controller: stockController,
               decoration: InputDecoration(labelText: 'Stok'),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: ScreenUtil().setHeight(20)),
+            ElevatedButton(
+              onPressed: () {
+                pickImageFromGallery();
+              },
+              child: Text('Unggah Gambar Produk'),
+            ),
+
+            SizedBox(height: ScreenUtil().setHeight(20)),
             // DropdownButton untuk kategori
             DropdownButton<String>(
               value: selectedCategory.isEmpty ? null : selectedCategory,
@@ -109,7 +149,7 @@ class _AddProductState extends State<AddProduct> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: ScreenUtil().setHeight(20)),
             ElevatedButton(
               onPressed: () {
                 saveData();
