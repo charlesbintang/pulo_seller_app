@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../utils/color_resources.dart';
 import '../utils/constants.dart';
 
 class SingleOrder extends StatefulWidget {
@@ -45,7 +46,7 @@ class _SingleOrderState extends State<SingleOrder> {
                     },
                     child: const Icon(
                       Icons.arrow_back_ios,
-                      color: Colors.white,
+                      color: ColorResources.white,
                     ),
                   ),
                   const SizedBox(
@@ -58,14 +59,14 @@ class _SingleOrderState extends State<SingleOrder> {
                           text: "Details About\n",
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: Colors.white,
+                                    color: ColorResources.white,
                                   ),
                         ),
                         TextSpan(
                           text: "Order #521",
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: Colors.white,
+                                    color: ColorResources.white,
                                     fontWeight: FontWeight.w600,
                                   ),
                         ),
@@ -142,7 +143,7 @@ class _SingleOrderState extends State<SingleOrder> {
                   const SizedBox(height: 10.0),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ColorResources.white,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     padding: const EdgeInsets.all(16.0),

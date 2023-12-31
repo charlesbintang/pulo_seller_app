@@ -2,11 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pulo_seller_app/global/global_var.dart';
-import 'package:pulo_seller_app/models/seller_products.dart';
+import 'package:pulo_seller_app/pages/add_product.dart';
 
+import '../global/global_var.dart';
+import '../models/seller_products.dart';
 import '../utils/color_resources.dart';
 import '../utils/light_themes.dart';
+import 'product_details.dart';
 
 class ProductView extends StatefulWidget {
   const ProductView({
@@ -47,23 +49,16 @@ class _ProductViewState extends State<ProductView> {
     DataSnapshot rentalSnapshot = await rental.get();
     if (foodSnapshot.exists) {
       Map<dynamic, dynamic> foodItems = foodSnapshot.value as Map;
-      print(foodItems);
       foodItems.forEach((foodItemKey, foodItemData) {
-        sellerProducts.add(
-          SellerProducts(
-              productId: foodItemKey.toString(),
-              productCategory: foodItemData["productCategory"].toString(),
-              productDescription: foodItemData["productDescription"].toString(),
-              productImage: foodItemData["productImage"].toString(),
-              productName: foodItemData["productName"].toString(),
-              productPrice: foodItemData["productPrice"].toString()),
-        );
-        print(foodItemKey);
-        print(foodItemData["productCategory"]);
-        print(foodItemData["productDescription"]);
-        print(foodItemData["productImage"]);
-        print(foodItemData["productName"]);
-        print(foodItemData["productPrice"]);
+        sellerProducts.add(SellerProducts(
+          productId: foodItemKey,
+          productCategory: foodItemData["productCategory"],
+          productDescription: foodItemData["productDescription"],
+          productImage: foodItemData["productImage"],
+          productName: foodItemData["productName"],
+          productPrice: foodItemData["productPrice"],
+          productStock: foodItemData["productStock"],
+        ));
       });
     }
     if (martSnapshot.exists) {
@@ -71,12 +66,14 @@ class _ProductViewState extends State<ProductView> {
       martItems.forEach((martItemKey, martItemData) {
         sellerProducts.add(
           SellerProducts(
-              productId: martItemKey.toString(),
-              productCategory: martItemData["productCategory"],
-              productDescription: martItemData["productDescription"],
-              productImage: martItemData["productImage"],
-              productName: martItemData["productName"],
-              productPrice: martItemData["productPrice"]),
+            productId: martItemKey.toString(),
+            productCategory: martItemData["productCategory"],
+            productDescription: martItemData["productDescription"],
+            productImage: martItemData["productImage"],
+            productName: martItemData["productName"],
+            productPrice: martItemData["productPrice"],
+            productStock: martItemData["productStock"],
+          ),
         );
         // print(martItemKey.toString());
         // print(martItems["productCategory"]);
@@ -91,12 +88,14 @@ class _ProductViewState extends State<ProductView> {
       pasarItems.forEach((pasarItemKey, pasarItemData) {
         sellerProducts.add(
           SellerProducts(
-              productId: pasarItemKey.toString(),
-              productCategory: pasarItemData["productCategory"],
-              productDescription: pasarItemData["productDescription"],
-              productImage: pasarItemData["productImage"],
-              productName: pasarItemData["productName"],
-              productPrice: pasarItemData["productPrice"]),
+            productId: pasarItemKey.toString(),
+            productCategory: pasarItemData["productCategory"],
+            productDescription: pasarItemData["productDescription"],
+            productImage: pasarItemData["productImage"],
+            productName: pasarItemData["productName"],
+            productPrice: pasarItemData["productPrice"],
+            productStock: pasarItemData["productStock"],
+          ),
         );
         // print(pasarItemKey.toString());
         // print(pasarItems["productCategory"]);
@@ -111,19 +110,15 @@ class _ProductViewState extends State<ProductView> {
       rentalItems.forEach((rentalItemKey, rentalItemData) {
         sellerProducts.add(
           SellerProducts(
-              productId: rentalItemKey.toString(),
-              productCategory: rentalItemData["productCategory"],
-              productDescription: rentalItemData["productDescription"],
-              productImage: rentalItemData["productImage"],
-              productName: rentalItemData["productName"],
-              productPrice: rentalItemData["productPrice"]),
+            productId: rentalItemKey.toString(),
+            productCategory: rentalItemData["productCategory"],
+            productDescription: rentalItemData["productDescription"],
+            productImage: rentalItemData["productImage"],
+            productName: rentalItemData["productName"],
+            productPrice: rentalItemData["productPrice"],
+            productStock: rentalItemData["productStock"],
+          ),
         );
-        // print(rentalItemKey.toString());
-        // print(rentalItems["productCategory"]);
-        // print(rentalItems["productDescription"]);
-        // print(rentalItems["productImage"]);
-        // print(rentalItems["productName"]);
-        // print(rentalItems["productPrice"]);
       });
     }
     setState(() {});
@@ -148,10 +143,15 @@ class _ProductViewState extends State<ProductView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: ColorResources.white,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddProduct(),
+              ),
+            ),
             icon: const Icon(Icons.add),
           )
         ],
@@ -230,7 +230,12 @@ class _ProductViewState extends State<ProductView> {
           child: Stack(
             children: [
               InkWell(
-                onTap: (() {}),
+                onTap: (() => Navigator.push(
+                    (context),
+                    MaterialPageRoute(
+                        builder: (context) => ProductDetails(
+                              sellerProductsDetails: product,
+                            )))),
                 child: Container(
                   clipBehavior: Clip.hardEdge,
                   width: double.infinity,

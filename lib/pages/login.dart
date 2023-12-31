@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils/color_resources.dart';
 import '../utils/constants.dart';
 import '../widgets/app_button.dart';
 import '../widgets/input_widget.dart';
@@ -45,7 +46,7 @@ class Login extends StatelessWidget {
                           },
                           child: const Icon(
                             Icons.arrow_back_ios,
-                            color: Colors.white,
+                            color: ColorResources.white,
                           ),
                         ),
                         const SizedBox(
@@ -56,7 +57,7 @@ class Login extends StatelessWidget {
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.white,
+                                    color: ColorResources.white,
                                   ),
                         )
                       ],
@@ -77,7 +78,7 @@ class Login extends StatelessWidget {
                           topLeft: Radius.circular(30.0),
                           topRight: Radius.circular(30.0),
                         ),
-                        color: Colors.white,
+                        color: ColorResources.white,
                       ),
                       padding: const EdgeInsets.all(24.0),
                       child: Column(

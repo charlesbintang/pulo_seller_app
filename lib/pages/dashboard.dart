@@ -4,6 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../models/seller_products.dart';
+import '../utils/color_resources.dart';
 import '../utils/constants.dart';
 import 'home_dashboard.dart';
 import 'product_view.dart';
@@ -28,34 +29,40 @@ class _DashboardState extends State<Dashboard> {
           Icon(
             Icons.home,
             size: 30.0,
-            color: activeIndex == 0 ? Colors.white : const Color(0xFFC8C9CB),
+            color: activeIndex == 0
+                ? ColorResources.white
+                : const Color(0xFFC8C9CB),
           ),
           Image.asset(
             "assets/images/boxProduct.png",
-            color: activeIndex == 1 ? Colors.white : const Color(0xFFC8C9CB),
+            color: activeIndex == 1
+                ? ColorResources.white
+                : const Color(0xFFC8C9CB),
             width: 30,
             height: 30,
           ),
           // Icon(
           //   Icons.pin_drop_rounded,
           //   size: 30.0,
-          //   color: activeIndex == 1 ? Colors.white : const Color(0xFFC8C9CB),
+          //   color: activeIndex == 1 ? ColorResources.white : const Color(0xFFC8C9CB),
           // ),
           // Icon(
           //   Icons.add,
           //   size: 30.0,
-          //   color: activeIndex == 2 ? Colors.white : const Color(0xFFC8C9CB),
+          //   color: activeIndex == 2 ? ColorResources.white : const Color(0xFFC8C9CB),
           // ),
           // Icon(
           //   Icons.favorite,
           //   size: 30.0,
-          //   color: activeIndex == 3 ? Colors.white : const Color(0xFFC8C9CB),
+          //   color: activeIndex == 3 ? ColorResources.white : const Color(0xFFC8C9CB),
           // ),
-          Icon(
-            Icons.settings,
-            size: 30.0,
-            color: activeIndex == 2 ? Colors.white : const Color(0xFFC8C9CB),
-          ),
+          // Icon(
+          //   Icons.settings,
+          //   size: 30.0,
+          //   color: activeIndex == 2
+          //       ? ColorResources.white
+          //       : const Color(0xFFC8C9CB),
+          // ),
         ],
         onTap: (index) {
           setState(() {

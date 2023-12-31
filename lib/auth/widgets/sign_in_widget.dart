@@ -132,7 +132,7 @@ class SignInWidgetState extends State<SignInWidget> {
                           },
                           child: const Icon(
                             Icons.arrow_back_ios,
-                            color: Colors.white,
+                            color: ColorResources.white,
                           ),
                         ),
                         const SizedBox(
@@ -143,7 +143,7 @@ class SignInWidgetState extends State<SignInWidget> {
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.white,
+                                    color: ColorResources.white,
                                   ),
                         )
                       ],
@@ -164,7 +164,7 @@ class SignInWidgetState extends State<SignInWidget> {
                           topLeft: Radius.circular(30.0),
                           topRight: Radius.circular(30.0),
                         ),
-                        color: Colors.white,
+                        color: ColorResources.white,
                       ),
                       padding: const EdgeInsets.only(top: 12.0),
                       child: Padding(

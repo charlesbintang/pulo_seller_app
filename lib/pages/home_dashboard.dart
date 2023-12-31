@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../utils/color_resources.dart';
 import '../utils/constants.dart';
 import '../widgets/latest_orders.dart';
 import '../widgets/location_slider.dart';
@@ -53,7 +54,7 @@ class HomeDashboard extends StatelessWidget {
                                     .textTheme
                                     .titleLarge
                                     ?.copyWith(
-                                      color: Colors.white,
+                                      color: ColorResources.white,
                                     ),
                               ),
                               TextSpan(
@@ -62,7 +63,7 @@ class HomeDashboard extends StatelessWidget {
                                     .textTheme
                                     .titleLarge
                                     ?.copyWith(
-                                      color: Colors.white,
+                                      color: ColorResources.white,
                                       fontWeight: FontWeight.w600,
                                     ),
                               )

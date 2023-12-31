@@ -5,6 +5,7 @@ class SellerProducts {
   String productImage;
   String productName;
   String productPrice;
+  String productStock;
 
   SellerProducts({
     required this.productId,
@@ -13,6 +14,7 @@ class SellerProducts {
     required this.productImage,
     required this.productName,
     required this.productPrice,
+    required this.productStock,
   });
 }
 
