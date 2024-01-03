@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pulo_seller_app/pages/dashboard.dart';
-import 'package:pulo_seller_app/pages/product_view.dart';
 
 import '../global/global_var.dart';
 import '../models/seller_products.dart';
@@ -99,11 +98,6 @@ class _ProductDetailsState extends State<ProductDetails> {
       // make this upload image link in firebase database
 
       productImage = await referenceImageaToUpload.getDownloadURL();
-      if (productImage.isNotEmpty) {
-        setState(() {
-          // canSave = true;
-        });
-      }
       print(productImage);
     } catch (error) {
       //some error
@@ -148,7 +142,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                     child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: BackButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Dashboard(),
+                            ),
+                          ),
                           color: ColorResources.white,
                           style: const ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(
@@ -225,13 +224,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                           onPressed: () {
                             deleteProduct(context);
                           },
-                          child: const Text(
-                            "Remove",
-                            style: TextStyle(color: ColorResources.white),
-                          ),
                           style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(ColorResources.red),
+                          ),
+                          child: const Text(
+                            "Remove",
+                            style: TextStyle(color: ColorResources.white),
                           ),
                         ),
                       ],
@@ -274,9 +273,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   .child(widget.sellerProductsDetails.productCategory)
                   .child(widget.sellerProductsDetails.productId);
               productRef.remove().then((value) {
-                sellerProducts.clear();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Dashboard()));
               });
             },
             style: const ButtonStyle(
@@ -292,7 +290,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   Future<dynamic> updateProduct(BuildContext context) {
-    bool canSave = false;
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -321,14 +318,10 @@ class _ProductDetailsState extends State<ProductDetails> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  canSave = true;
                   productImage = "";
                 });
 
-                print(canSave);
-                Future.delayed(Duration(milliseconds: 500), () {
-                  pickImageFromGallery();
-                });
+                pickImageFromGallery();
               },
               child: const Text('Unggah Gambar Produk'),
             ),
@@ -337,14 +330,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         actions: [
           ElevatedButton(
             onPressed: () {
-              nameController.clear();
-              priceController.clear();
-              descriptionController.clear();
-              stockController.clear();
-              setState(() {
-                selectedCategory = '';
-                productImage = '';
-              });
               Navigator.of(context).pop();
             },
             style: const ButtonStyle(
@@ -365,8 +350,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   selectedCategory,
                   productImage,
                 );
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Dashboard()));
               }
             },
             style: const ButtonStyle(

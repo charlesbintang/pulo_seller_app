@@ -23,9 +23,7 @@ class _PaymentFailedPageState extends State<PaymentFailedPage> {
         desc: 'Maaf Pembayaran Anda gagal',
         btnOkOnPress: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const Dashboard(
-              initIndex: 0,
-            );
+            return const Dashboard();
           }));
         },
         btnOkColor: Colors.red,

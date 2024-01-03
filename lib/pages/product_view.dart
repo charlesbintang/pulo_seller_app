@@ -75,12 +75,6 @@ class _ProductViewState extends State<ProductView> {
             productStock: martItemData["productStock"],
           ),
         );
-        // print(martItemKey.toString());
-        // print(martItems["productCategory"]);
-        // print(martItems["productDescription"]);
-        // print(martItems["productImage"]);
-        // print(martItems["productName"]);
-        // print(martItems["productPrice"]);
       });
     }
     if (pasarSnapshot.exists) {
@@ -97,12 +91,6 @@ class _ProductViewState extends State<ProductView> {
             productStock: pasarItemData["productStock"],
           ),
         );
-        // print(pasarItemKey.toString());
-        // print(pasarItems["productCategory"]);
-        // print(pasarItems["productDescription"]);
-        // print(pasarItems["productImage"]);
-        // print(pasarItems["productName"]);
-        // print(pasarItems["productPrice"]);
       });
     }
     if (rentalSnapshot.exists) {
@@ -147,7 +135,7 @@ class _ProductViewState extends State<ProductView> {
         backgroundColor: ColorResources.white,
         actions: [
           IconButton(
-            onPressed: () => Navigator.push(
+            onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => const AddProduct(),
@@ -162,7 +150,6 @@ class _ProductViewState extends State<ProductView> {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            // const SearchBoxDaftarProduk(),
             SizedBox(
               height: ScreenUtil().setHeight(50),
               child: ListView.builder(
@@ -173,6 +160,11 @@ class _ProductViewState extends State<ProductView> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FilterChip(
+                      side: BorderSide(
+                        color: blue1,
+                        width: 0.8,
+                      ),
+                      selectedShadowColor: blue1,
                       label: Text(categories[index]),
                       selected: selectedCategories.contains(categories[index]),
                       onSelected: (selected) {
@@ -231,7 +223,7 @@ class _ProductViewState extends State<ProductView> {
           child: Stack(
             children: [
               InkWell(
-                onTap: (() => Navigator.push(
+                onTap: (() => Navigator.pushReplacement(
                     (context),
                     MaterialPageRoute(
                         builder: (context) => ProductDetails(

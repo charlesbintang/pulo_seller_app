@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pulo_seller_app/pages/dashboard.dart';
+import 'package:pulo_seller_app/utils/color_resources.dart';
 
 import '../global/global_var.dart';
 import '../models/seller_products.dart';
@@ -32,19 +34,27 @@ class _AddProductState extends State<AddProduct> {
     'rental',
   ];
 
-  void saveData() {
+  saveData() {
     DatabaseReference productRef = FirebaseDatabase.instance
         .ref()
         .child("sellerItems")
         .child(userID)
         .child(selectedCategory);
 
-// TODO masukkan productImage
-
     String productName = nameController.text;
     String productPrice = priceController.text;
     String productDescription = descriptionController.text;
     String productStock = stockController.text;
+
+    if (productImage.isEmpty &&
+        productStock.isEmpty &&
+        productPrice.isEmpty &&
+        productName.isEmpty &&
+        productDescription.isEmpty &&
+        selectedCategory.isEmpty) {
+      return ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Isi bagian yang kosong dulu ya!")));
+    }
 
     // Simpan data ke Firebase
     productRef.push().set({
@@ -54,11 +64,11 @@ class _AddProductState extends State<AddProduct> {
       "productStock": productStock,
       "productCategory": selectedCategory,
       "productImage": productImage,
-      //  TODO "productImage": ,
     }).then((_) {
-      print("Data saved successfully");
+      // print("Data saved successfully");
+      Navigator.pop(context);
     }).catchError((e) {
-      print(e);
+      // print(e);
     });
 
     nameController.clear();
@@ -70,6 +80,12 @@ class _AddProductState extends State<AddProduct> {
       productImage = '';
     });
     sellerProducts.clear(); // Setel kategori kembali ke nilai awal
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Dashboard(),
+      ),
+    );
   }
 
   Future pickImageFromGallery() async {
@@ -102,6 +118,15 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: ColorResources.black,
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Dashboard(),
+            ),
+          ),
+        ),
         title: const Text("Tambah Produk"),
       ),
       body: Padding(
