@@ -35,12 +35,10 @@ class _AddProductState extends State<AddProduct> {
   ];
 
   saveData() {
-    DatabaseReference productRef = FirebaseDatabase.instance
-        .ref()
-        .child("sellerItems")
-        .child(userID)
-        .child(selectedCategory);
+    DatabaseReference productRef =
+        FirebaseDatabase.instance.ref().child("sellerItems");
 
+    String? productRefKey = productRef.push().key;
     String productName = nameController.text;
     String productPrice = priceController.text;
     String productDescription = descriptionController.text;
@@ -58,6 +56,8 @@ class _AddProductState extends State<AddProduct> {
 
     // Simpan data ke Firebase
     productRef.push().set({
+      "productId": productRefKey,
+      "sellerId": userID,
       "productName": productName,
       "productPrice": productPrice,
       "productDescription": productDescription,
@@ -80,12 +80,6 @@ class _AddProductState extends State<AddProduct> {
       productImage = '';
     });
     sellerProducts.clear(); // Setel kategori kembali ke nilai awal
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Dashboard(),
-      ),
-    );
   }
 
   Future pickImageFromGallery() async {
@@ -119,14 +113,8 @@ class _AddProductState extends State<AddProduct> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          color: ColorResources.black,
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Dashboard(),
-            ),
-          ),
-        ),
+            color: ColorResources.black,
+            onPressed: () => Navigator.pop(context)),
         title: const Text("Tambah Produk"),
       ),
       body: Padding(
@@ -175,7 +163,15 @@ class _AddProductState extends State<AddProduct> {
             SizedBox(height: ScreenUtil().setHeight(20)),
             ElevatedButton(
               onPressed: () {
-                saveData();
+                if (productImage.isNotEmpty) {
+                  saveData();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Dashboard(),
+                    ),
+                  );
+                }
               },
               child: const Text('Simpan'),
             ),

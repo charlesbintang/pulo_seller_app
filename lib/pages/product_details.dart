@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pulo_seller_app/pages/dashboard.dart';
 
-import '../global/global_var.dart';
 import '../models/seller_products.dart';
 import '../utils/color_resources.dart';
 import '../utils/constants.dart';
@@ -46,11 +45,8 @@ class _ProductDetailsState extends State<ProductDetails> {
     String selectedCategory,
     String productImage,
   ) {
-    DatabaseReference productRefKey = FirebaseDatabase.instance
-        .ref()
-        .child("sellerItems")
-        .child(userID)
-        .child(selectedCategory);
+    DatabaseReference productRefKey =
+        FirebaseDatabase.instance.ref().child("sellerItems");
 
     final editData = {
       "productName": productName,
@@ -142,12 +138,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: BackButton(
-                          onPressed: () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Dashboard(),
-                            ),
-                          ),
+                          onPressed: () => Navigator.pop(context),
                           color: ColorResources.white,
                           style: const ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(
@@ -269,8 +260,6 @@ class _ProductDetailsState extends State<ProductDetails> {
               DatabaseReference productRef = FirebaseDatabase.instance
                   .ref()
                   .child("sellerItems")
-                  .child(userID)
-                  .child(widget.sellerProductsDetails.productCategory)
                   .child(widget.sellerProductsDetails.productId);
               productRef.remove().then((value) {
                 Navigator.pushReplacement(context,

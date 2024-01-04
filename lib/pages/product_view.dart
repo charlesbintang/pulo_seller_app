@@ -21,92 +21,26 @@ class ProductView extends StatefulWidget {
 class _ProductViewState extends State<ProductView> {
   Future<FirebaseApp> fapp = Firebase.initializeApp();
 
-  DatabaseReference food = FirebaseDatabase.instance
-      .ref()
-      .child("sellerItems")
-      .child(userID)
-      .child("food");
-  DatabaseReference mart = FirebaseDatabase.instance
-      .ref()
-      .child("sellerItems")
-      .child(userID)
-      .child("mart");
-  DatabaseReference pasar = FirebaseDatabase.instance
-      .ref()
-      .child("sellerItems")
-      .child(userID)
-      .child("pasar");
-  DatabaseReference rental = FirebaseDatabase.instance
-      .ref()
-      .child("sellerItems")
-      .child(userID)
-      .child("rental");
+  DatabaseReference items =
+      FirebaseDatabase.instance.ref().child("sellerItems");
 
   void getDataOnce() async {
-    DataSnapshot foodSnapshot = await food.get();
-    DataSnapshot martSnapshot = await mart.get();
-    DataSnapshot pasarSnapshot = await pasar.get();
-    DataSnapshot rentalSnapshot = await rental.get();
-    if (foodSnapshot.exists) {
-      Map<dynamic, dynamic> foodItems = foodSnapshot.value as Map;
-      foodItems.forEach((foodItemKey, foodItemData) {
+    DataSnapshot itemsSnapshot =
+        await items.orderByChild("sellerId").equalTo(userID).get();
+
+    if (itemsSnapshot.exists) {
+      Map<dynamic, dynamic> itemsProduct = itemsSnapshot.value as Map;
+      itemsProduct.forEach((itemsKey, itemsData) {
         sellerProducts.add(SellerProducts(
-          productId: foodItemKey,
-          productCategory: foodItemData["productCategory"],
-          productDescription: foodItemData["productDescription"],
-          productImage: foodItemData["productImage"],
-          productName: foodItemData["productName"],
-          productPrice: foodItemData["productPrice"],
-          productStock: foodItemData["productStock"],
+          productId: itemsKey,
+          sellerId: itemsData["sellerId"],
+          productCategory: itemsData["productCategory"],
+          productDescription: itemsData["productDescription"],
+          productImage: itemsData["productImage"],
+          productName: itemsData["productName"],
+          productPrice: itemsData["productPrice"],
+          productStock: itemsData["productStock"],
         ));
-      });
-    }
-    if (martSnapshot.exists) {
-      Map<dynamic, dynamic> martItems = martSnapshot.value as Map;
-      martItems.forEach((martItemKey, martItemData) {
-        sellerProducts.add(
-          SellerProducts(
-            productId: martItemKey.toString(),
-            productCategory: martItemData["productCategory"],
-            productDescription: martItemData["productDescription"],
-            productImage: martItemData["productImage"],
-            productName: martItemData["productName"],
-            productPrice: martItemData["productPrice"],
-            productStock: martItemData["productStock"],
-          ),
-        );
-      });
-    }
-    if (pasarSnapshot.exists) {
-      Map<dynamic, dynamic> pasarItems = pasarSnapshot.value as Map;
-      pasarItems.forEach((pasarItemKey, pasarItemData) {
-        sellerProducts.add(
-          SellerProducts(
-            productId: pasarItemKey.toString(),
-            productCategory: pasarItemData["productCategory"],
-            productDescription: pasarItemData["productDescription"],
-            productImage: pasarItemData["productImage"],
-            productName: pasarItemData["productName"],
-            productPrice: pasarItemData["productPrice"],
-            productStock: pasarItemData["productStock"],
-          ),
-        );
-      });
-    }
-    if (rentalSnapshot.exists) {
-      Map<dynamic, dynamic> rentalItems = rentalSnapshot.value as Map;
-      rentalItems.forEach((rentalItemKey, rentalItemData) {
-        sellerProducts.add(
-          SellerProducts(
-            productId: rentalItemKey.toString(),
-            productCategory: rentalItemData["productCategory"],
-            productDescription: rentalItemData["productDescription"],
-            productImage: rentalItemData["productImage"],
-            productName: rentalItemData["productName"],
-            productPrice: rentalItemData["productPrice"],
-            productStock: rentalItemData["productStock"],
-          ),
-        );
       });
     }
     setState(() {});
@@ -114,9 +48,7 @@ class _ProductViewState extends State<ProductView> {
 
   final List<String> categories = [
     'food',
-    'mart',
     'pasar',
-    'rental',
   ];
 
   List<String> selectedCategories = [];
@@ -135,7 +67,7 @@ class _ProductViewState extends State<ProductView> {
         backgroundColor: ColorResources.white,
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushReplacement(
+            onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const AddProduct(),
@@ -189,10 +121,10 @@ class _ProductViewState extends State<ProductView> {
                 child: FutureBuilder(
                   future: fapp,
                   builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text("Something went wrong with firebase");
-                    } else if (snapshot.hasData) {
+                    if (snapshot.hasData) {
                       return content();
+                    } else if (snapshot.hasError) {
+                      return const Text("Something went wrong with firebase");
                     } else {
                       return const CircularProgressIndicator();
                     }
@@ -223,7 +155,7 @@ class _ProductViewState extends State<ProductView> {
           child: Stack(
             children: [
               InkWell(
-                onTap: (() => Navigator.pushReplacement(
+                onTap: (() => Navigator.push(
                     (context),
                     MaterialPageRoute(
                         builder: (context) => ProductDetails(
