@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:pulo_seller_app/pages/dashboard.dart';
 
 import '../models/seller_products.dart';
@@ -39,9 +40,9 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   void updateData(
     String productName,
-    String productPrice,
+    int productPrice,
     String productDescription,
-    String productStock,
+    int productStock,
     String selectedCategory,
     String productImage,
   ) {
@@ -104,10 +105,10 @@ class _ProductDetailsState extends State<ProductDetails> {
   void initState() {
     super.initState();
     nameController.text = widget.sellerProductsDetails.productName;
-    priceController.text = widget.sellerProductsDetails.productPrice;
+    priceController.text = widget.sellerProductsDetails.productPrice.toString();
     descriptionController.text =
         widget.sellerProductsDetails.productDescription;
-    stockController.text = widget.sellerProductsDetails.productStock;
+    stockController.text = widget.sellerProductsDetails.productStock.toString();
     selectedCategory = widget.sellerProductsDetails.productCategory;
     productImage = widget.sellerProductsDetails.productImage;
   }
@@ -172,7 +173,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.sellerProductsDetails.productPrice,
+                          NumberFormat.currency(
+                                  locale: 'id', symbol: 'Rp ', decimalDigits: 0)
+                              .format(
+                                  widget.sellerProductsDetails.productPrice),
                           style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -293,6 +297,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             TextField(
               controller: priceController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(labelText: 'Harga'),
             ),
             TextField(
@@ -301,6 +306,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             TextField(
               controller: stockController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(labelText: 'Stok'),
             ),
             SizedBox(height: ScreenUtil().setHeight(20)),
@@ -331,11 +337,15 @@ class _ProductDetailsState extends State<ProductDetails> {
           ElevatedButton(
             onPressed: () {
               if (productImage.isNotEmpty) {
+                int stockControllerNumber =
+                    int.tryParse(stockController.text) ?? 0;
+                int priceControllerNumber =
+                    int.tryParse(priceController.text) ?? 0;
                 updateData(
                   nameController.text,
-                  priceController.text,
+                  priceControllerNumber,
                   descriptionController.text,
-                  stockController.text,
+                  stockControllerNumber,
                   selectedCategory,
                   productImage,
                 );

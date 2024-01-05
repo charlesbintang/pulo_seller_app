@@ -1,7 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:pulo_seller_app/pages/add_product.dart';
 
 import '../global/global_var.dart';
@@ -19,8 +19,6 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
-  Future<FirebaseApp> fapp = Firebase.initializeApp();
-
   DatabaseReference items =
       FirebaseDatabase.instance.ref().child("sellerItems");
 
@@ -118,18 +116,7 @@ class _ProductViewState extends State<ProductView> {
                   0, ScreenUtil().setHeight(6.5), 0, ScreenUtil().setHeight(5)),
               child: SizedBox(
                 height: ScreenUtil().setHeight(569.4),
-                child: FutureBuilder(
-                  future: fapp,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return content();
-                    } else if (snapshot.hasError) {
-                      return const Text("Something went wrong with firebase");
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
+                child: content(),
               ),
             )
           ],
@@ -204,7 +191,11 @@ class _ProductViewState extends State<ProductView> {
                               height: ScreenUtil().setHeight(5),
                             ),
                             Text(
-                              product.productPrice,
+                              NumberFormat.currency(
+                                      locale: 'id',
+                                      symbol: 'Rp ',
+                                      decimalDigits: 0)
+                                  .format(product.productPrice),
                               style: const TextStyle(
                                   fontSize: 18.5,
                                   color: ColorResources.black,
