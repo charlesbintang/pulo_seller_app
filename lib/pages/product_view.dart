@@ -60,6 +60,7 @@ class _ProductViewState extends State<ProductView> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorResources.white,
