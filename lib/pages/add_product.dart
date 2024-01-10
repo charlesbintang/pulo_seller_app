@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -28,11 +29,26 @@ class _AddProductState extends State<AddProduct> {
 
   // Daftar kategori yang dapat dipilih
   final List<String> categories = [
-    'food',
-    'mart',
-    'pasar',
-    'rental',
+    'Makanan',
+    'Pasar',
   ];
+
+  Future<void> getUserInfo() async {
+    DatabaseReference usersRef = FirebaseDatabase.instance
+        .ref()
+        .child("users")
+        .child(FirebaseAuth.instance.currentUser!.uid);
+
+    await usersRef.once().then((snap) {
+      if (snap.snapshot.value != null) {
+        if ((snap.snapshot.value as Map)["blockStatus"] == "no") {
+          setState(() {
+            userName = (snap.snapshot.value as Map)["name"];
+          });
+        }
+      }
+    });
+  }
 
   saveData() {
     DatabaseReference productRef =
@@ -40,13 +56,15 @@ class _AddProductState extends State<AddProduct> {
 
     String? productRefKey = productRef.push().key;
     String productName = nameController.text;
-    String productPrice = priceController.text;
+    String productPriceText = priceController.text;
+    int productPrice = int.parse(productPriceText);
     String productDescription = descriptionController.text;
-    String productStock = stockController.text;
+    String productStockText = stockController.text;
+    int productStock = int.parse(productStockText);
 
     if (productImage.isEmpty &&
-        productStock.isEmpty &&
-        productPrice.isEmpty &&
+        productStockText.isEmpty &&
+        productPriceText.isEmpty &&
         productName.isEmpty &&
         productDescription.isEmpty &&
         selectedCategory.isEmpty) {
@@ -58,6 +76,7 @@ class _AddProductState extends State<AddProduct> {
     productRef.push().set({
       "productId": productRefKey,
       "sellerId": userID,
+      "sellerName": userName,
       "productName": productName,
       "productPrice": productPrice,
       "productDescription": productDescription,
@@ -109,6 +128,12 @@ class _AddProductState extends State<AddProduct> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -127,6 +152,7 @@ class _AddProductState extends State<AddProduct> {
             ),
             TextField(
               controller: priceController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(labelText: 'Harga'),
             ),
             TextField(
@@ -135,6 +161,7 @@ class _AddProductState extends State<AddProduct> {
             ),
             TextField(
               controller: stockController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(labelText: 'Stok'),
             ),
             SizedBox(height: ScreenUtil().setHeight(20)),

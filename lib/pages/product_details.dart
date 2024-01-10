@@ -174,9 +174,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                       children: [
                         Text(
                           NumberFormat.currency(
-                                  locale: 'id', symbol: 'Rp ', decimalDigits: 0)
-                              .format(
-                                  widget.sellerProductsDetails.productPrice),
+                            locale: 'id',
+                            symbol: 'Rp',
+                            decimalDigits: 0,
+                          ).format(widget.sellerProductsDetails.productPrice),
                           style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,

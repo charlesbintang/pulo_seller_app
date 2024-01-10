@@ -194,7 +194,7 @@ class _ProductViewState extends State<ProductView> {
                             Text(
                               NumberFormat.currency(
                                       locale: 'id',
-                                      symbol: 'Rp ',
+                                      symbol: 'Rp',
                                       decimalDigits: 0)
                                   .format(product.productPrice),
                               style: const TextStyle(
